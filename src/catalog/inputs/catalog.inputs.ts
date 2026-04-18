@@ -2,6 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import {
   IsBoolean,
   IsEmail,
+  IsIn,
   IsInt,
   IsOptional,
   IsString,
@@ -71,6 +72,7 @@ export class CreateProductInput {
   @Field(() => String)
   @IsString()
   @MinLength(1)
+  @IsIn(['GEL', 'USD'])
   currency: string;
 
   @Field(() => Int, { nullable: true })
@@ -97,14 +99,6 @@ export class AddProductImageInput {
   @IsOptional()
   @IsBoolean()
   isMain?: boolean | null;
-}
-
-@InputType()
-export class CreateTagInput {
-  @Field(() => String)
-  @IsString()
-  @MinLength(1)
-  name: string;
 }
 
 @InputType()

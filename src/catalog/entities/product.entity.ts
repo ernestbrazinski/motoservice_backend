@@ -10,7 +10,6 @@ import {
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 import { ProductImage } from './product-image.entity';
-import { ProductTag } from './product-tag.entity';
 import { ProductVariant } from './product-variant.entity';
 
 @ObjectType()
@@ -66,9 +65,6 @@ export class Product {
   @Field(() => [ProductVariant])
   @OneToMany(() => ProductVariant, (v) => v.product, { cascade: true })
   variants: ProductVariant[];
-
-  @OneToMany(() => ProductTag, (pt) => pt.product)
-  productTags: ProductTag[];
 
   @Field(() => Date)
   @Column({

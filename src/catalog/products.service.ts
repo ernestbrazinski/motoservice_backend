@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './entities/product.entity';
 import { ProductImage } from './entities/product-image.entity';
-import { Tag } from './entities/tag.entity';
 
 @Injectable()
 export class ProductsService {
@@ -12,8 +11,6 @@ export class ProductsService {
     private readonly productsRepository: Repository<Product>,
     @InjectRepository(ProductImage)
     private readonly productImagesRepository: Repository<ProductImage>,
-    @InjectRepository(Tag)
-    private readonly tagsRepository: Repository<Tag>,
   ) {}
 
   async findAll(filters?: {
@@ -28,8 +25,6 @@ export class ProductsService {
       .leftJoinAndSelect('p.category', 'category')
       .leftJoinAndSelect('p.images', 'images')
       .leftJoinAndSelect('p.variants', 'variants')
-      .leftJoinAndSelect('p.productTags', 'pt')
-      .leftJoinAndSelect('pt.tag', 'tag')
       .orderBy('p.id', 'DESC')
       .take(take);
 
@@ -53,24 +48,12 @@ export class ProductsService {
         'category',
         'images',
         'variants',
-        'productTags',
-        'productTags.tag',
       ],
     });
   }
 
   findById(id: number): Promise<Product | null> {
     return this.productsRepository.findOne({ where: { id } });
-  }
-
-  async findTagsForProduct(productId: number): Promise<Tag[]> {
-    const rows = await this.tagsRepository
-      .createQueryBuilder('t')
-      .innerJoin('t.productTags', 'pt')
-      .where('pt.productId = :pid', { pid: productId })
-      .orderBy('t.name', 'ASC')
-      .getMany();
-    return rows;
   }
 
   async create(data: {

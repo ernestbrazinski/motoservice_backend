@@ -1,5 +1,6 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import {
+  IsIn,
   IsInt,
   IsOptional,
   IsString,
@@ -29,6 +30,12 @@ export class CreateMotorcycleListingInput {
 
   @Field(() => Int)
   @IsInt()
+  @Min(1)
+  @Max(5000)
+  displacementCc: number;
+
+  @Field(() => Int)
+  @IsInt()
   @Min(0)
   mileage: number;
 
@@ -50,6 +57,7 @@ export class CreateMotorcycleListingInput {
   @Field(() => String)
   @IsString()
   @MinLength(1)
+  @IsIn(['GEL', 'USD'])
   currency: string;
 
   @Field(() => String, { nullable: true })
@@ -81,6 +89,13 @@ export class UpdateMotorcycleListingInput {
   @Field(() => Int, { nullable: true })
   @IsOptional()
   @IsInt()
+  @Min(1)
+  @Max(5000)
+  displacementCc?: number;
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  @IsInt()
   @Min(0)
   mileage?: number;
 
@@ -103,6 +118,8 @@ export class UpdateMotorcycleListingInput {
   @Field(() => String, { nullable: true })
   @IsOptional()
   @IsString()
+  @MinLength(1)
+  @IsIn(['GEL', 'USD'])
   currency?: string;
 
   @Field(() => String, { nullable: true })

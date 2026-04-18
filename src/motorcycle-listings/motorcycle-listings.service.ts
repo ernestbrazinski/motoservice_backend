@@ -23,6 +23,7 @@ export class MotorcycleListingsService {
       brandId: input.brandId,
       model: input.model,
       year: input.year,
+      displacementCc: input.displacementCc,
       mileage: input.mileage,
       mileageUnit: input.mileageUnit ?? MileageUnit.KM,
       vin: input.vin,

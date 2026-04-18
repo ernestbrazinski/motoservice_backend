@@ -12,17 +12,14 @@ import {
   CreateCategoryInput,
   CreateOrderInput,
   CreateProductInput,
-  CreateTagInput,
 } from './inputs/catalog.inputs';
 import { OrdersService } from './orders.service';
 import { ProductsService } from './products.service';
-import { TagsService } from './tags.service';
 import { Brand } from './entities/brand.entity';
 import { Category } from './entities/category.entity';
 import { Product } from './entities/product.entity';
 import { ProductImage } from './entities/product-image.entity';
 import { ShopOrder } from './entities/order.entity';
-import { Tag } from './entities/tag.entity';
 
 @Resolver()
 export class CatalogResolver {
@@ -30,7 +27,6 @@ export class CatalogResolver {
     private readonly categoriesService: CategoriesService,
     private readonly brandsService: BrandsService,
     private readonly productsService: ProductsService,
-    private readonly tagsService: TagsService,
     private readonly ordersService: OrdersService,
   ) {}
 
@@ -72,11 +68,6 @@ export class CatalogResolver {
   @Query(() => Product, { nullable: true })
   product(@Args('slug') slug: string): Promise<Product | null> {
     return this.productsService.findBySlug(slug);
-  }
-
-  @Query(() => [Tag])
-  tags(): Promise<Tag[]> {
-    return this.tagsService.findAll();
   }
 
   @Query(() => [ShopOrder])
@@ -145,24 +136,6 @@ export class CatalogResolver {
       input.url,
       input.isMain ?? false,
     );
-  }
-
-  @Mutation(() => Tag)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.SUPERADMIN)
-  createTag(@Args('input') input: CreateTagInput): Promise<Tag> {
-    return this.tagsService.create(input.name);
-  }
-
-  @Mutation(() => Boolean)
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(UserRole.SUPERADMIN)
-  async linkProductTag(
-    @Args('productId', { type: () => Int }) productId: number,
-    @Args('tagId', { type: () => Int }) tagId: number,
-  ): Promise<boolean> {
-    await this.tagsService.linkToProduct(productId, tagId);
-    return true;
   }
 
   @Mutation(() => ShopOrder)

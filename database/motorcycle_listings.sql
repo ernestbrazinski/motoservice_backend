@@ -8,6 +8,7 @@ CREATE TABLE motorcycle_listings (
     brand_id INTEGER NOT NULL REFERENCES brands(id),
     model TEXT NOT NULL,
     year INTEGER NOT NULL,
+    displacement_cc INTEGER NOT NULL,
     mileage INTEGER NOT NULL,
     mileage_unit mileage_unit NOT NULL DEFAULT 'km',
     vin TEXT NOT NULL,
@@ -17,7 +18,8 @@ CREATE TABLE motorcycle_listings (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT motorcycle_listings_vin_unique UNIQUE (vin),
-    CONSTRAINT motorcycle_listings_year_check CHECK (year >= 1900 AND year <= 2100)
+    CONSTRAINT motorcycle_listings_year_check CHECK (year >= 1900 AND year <= 2100),
+    CONSTRAINT motorcycle_listings_displacement_cc_check CHECK (displacement_cc >= 1 AND displacement_cc <= 5000)
 );
 
 CREATE TABLE motorcycle_listing_images (

@@ -13,9 +13,7 @@ import {
   ShopOrder,
   Product,
   ProductImage,
-  ProductTag,
   ProductVariant,
-  Tag,
 } from './catalog/entities';
 import './graphql/register-enums';
 import { MotorcycleListingImage } from './motorcycle-listings/entities/motorcycle-listing-image.entity';
@@ -45,8 +43,6 @@ import { UsersModule } from './users/users.module';
           Product,
           ProductImage,
           ProductVariant,
-          Tag,
-          ProductTag,
           ShopOrder,
           OrderItem,
           MotorcycleListing,

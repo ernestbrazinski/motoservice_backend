@@ -37,6 +37,11 @@ export class MotorcycleListing {
   @Column({ type: 'int' })
   year: number;
 
+  /** Engine displacement in cubic centimeters (cc). */
+  @Field(() => Int)
+  @Column({ name: 'displacement_cc', type: 'int' })
+  displacementCc: number;
+
   /** Odometer reading: value in `mileageUnit` (km or miles). */
   @Field(() => Int)
   @Column({ type: 'int' })
